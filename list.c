@@ -1,0 +1,56 @@
+#include "list.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+/*Estrura local para cada elemento da lista*/
+typedef struct CoordNode{
+    int x,y;
+    struct CoordNode *next;
+} CoordNode;
+
+/*cria uma nova lista*/
+CoordList* createList(){
+    CoordList* result = malloc(sizeof(CoordList));
+
+    result->list = NULL;
+    result->size = 0;
+    return result;
+}
+
+/*adiciona um novo elemento ao fim da lista*/
+void addNode(CoordList* list,int x, int y){
+    CoordNode* result = malloc(sizeof(CoordNode));
+    CoordNode* tempLast = list->list;
+    int i;
+
+    result->x = x;
+    result->y = y;
+    result->next = NULL;
+    if(list->size == 0){
+        list->list = result;
+    }
+    else {
+        for (i = 1; i < list->size; i++) {
+            tempLast = tempLast->next;
+        }
+        tempLast->next = result;
+    }
+    list->size++;
+}
+
+/*Escreve os movimentos por jogador*/
+void printMoves(CoordList* moves,Player** players){
+    CoordNode* currentNode = moves->list;
+    int i;
+    int playerIndex = 0;
+
+    do{
+        printf("Jogador: %c -> ",players[playerIndex % 2]->name);
+        printf("%i %i\n",++(currentNode->x),++(currentNode->y));
+
+        playerIndex++;
+        currentNode= currentNode->next;
+    } while(currentNode != NULL);
+
+
+}
