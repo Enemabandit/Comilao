@@ -2,7 +2,7 @@
 #ifndef COMILAO_BOARD_H
 #define COMILAO_BOARD_H
 /*constantes com as dimencoes minimas e maximas da board*/
-#define LIMMINCOL  6
+#define LIMMINCOL 6
 #define LIMMAXCOL 10
 #define LIMMINROW 4
 #define LIMMAXROW 8

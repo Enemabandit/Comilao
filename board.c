@@ -6,7 +6,7 @@
 /*Move o jogador para a posição e testa se o jogo acabou (return 1 if finished else return 0)*/
 int makeMoveAndTestFinish(Board* board,Player* player,CoordList* moves,int x,int y){
     int i,j;
-    int foodEaten=0;
+    int foodEaten = 0;
 
     if (board->position[x][y] == '*'){
         for(i=x; i >= 0 ;i--) {
@@ -133,4 +133,7 @@ void printBoard(Board* board){
         }
         printf("|\n");
     }
+    printf("\n");
+
+
 }

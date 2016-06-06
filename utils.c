@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /*Inicializa cada jogador*/
 Player** createPlayers(){
@@ -20,3 +21,23 @@ Player** createPlayers(){
     return result;
 }
 
+//todo: validar output da funçao fclose
+/*Gera um ficheiro .TXT com o report das jogadas e estados do tabuleiro*/
+void printReport(char* fileName,Board *board, CoordList *moves){
+    FILE* report = fopen(fileName,"w");
+    CoordNode *nodeAux = moves->list;
+
+    int i;
+    for(i=0;i < moves->size; i++){
+        fprintf(report,"%i:",i);
+        if(i % 2 == 0)              //<------------conferir a ordem d impressão dos jogadores
+            fprintf(report,"JogadorA -> ");
+            else fprintf(report,"JogadorB -> ");
+        fprintf(report,"%i%i",nodeAux->x,nodeAux->y);
+
+        nodeAux = nodeAux->next;
+    }
+
+    fclose(report);
+    printf("report exportado com sucesso!");
+}

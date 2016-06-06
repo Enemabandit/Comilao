@@ -1,7 +1,55 @@
-
 #include <stdio.h>
 #include "board.h"
 
+//TODO: validacoes dos menus!!!
+/*Escreve o menu principal no ecra e devolve a opcao escolhida*/
+int mainMenu() {
+    int result;
+
+    printf("********** Jogo do Comilao **********\n");
+    printf("*                                   *\n");
+    printf("*   1)Novo Jogo                     *\n");
+    printf("*   2)Carregar Jogo                 *\n");
+    printf("*                                   *\n");
+    printf("*************************************\n");
+    do {
+        printf("   Opcao: ");;
+        scanf("%i",&result);
+        if (result != 1 && result != 2) printf("Opção inválida!\n");
+    } while (result != 1 &&result != 2);
+
+    return result;
+}
+/*Escreve o menu anterior a realização de uma jogada no ecra e devolve a opcao escolida*/
+int menuPrePlay(Player* player,CoordList *moves){
+    int result;
+    printf("Jogador%c\n",player->name);
+    printf("  |Jogada n:%i\n",(moves->size +1));
+    printf("  |  1)Mostrar Jogadas Realizadas\n");
+    printf("  |  2)Salvar Jogo\n");
+    printf("  |  3)Continuar\n");
+    do {
+        printf("  |Opcao -> ");;
+        scanf("%i",&result);
+        if (result != 1 && result != 2 && result !=3) printf("Opção inválida!\n");
+    } while (result != 1 && result != 2 && result !=3);
+    return result;
+};
+/*Escreve o menu posterior a realização de uma jogada no ecra e devolve a opcao escolida*/
+int menuPostPlay(Player* player,CoordList *moves){
+    int result;
+    printf("Jogador%c\n",player->name);
+    printf("  |Jogada n:%i\n",(moves->size));
+    printf("  |  1)Aumentar Tabuleiro\n");
+    printf("  |  2)Salvar Jogo\n");
+    printf("  |  3)Continuar\n");
+    do {
+        printf("   Opcao: ");;
+        scanf("%i",&result);
+        if (result != 1 && result != 2 && result !=3) printf("Opção inválida!\n");
+    } while (result != 1 && result != 2 && result !=3);
+    return result;
+};
 /*Pede as coordenadas ao utilizador e garante que estão contidas na board*/
 void getCoords(int *x,int *y,int maxCol,int maxRow){
     int invalid;
@@ -33,9 +81,21 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
     /*Alterna o player em foco*/
     Player* currentPlayer = players[moves->size % 2] ;
 
-    printf("Jogador%c\n", currentPlayer->name);
+    printf("Estado do Tabuleiro:\n");
     printBoard(board);
 
+    switch(menuPrePlay(currentPlayer,moves)){
+        case 1:
+            printMoves(moves,players);
+            break;
+        case 2:
+            //TODO: implementar salvar jogo
+            printf("Salvar Jogo ainda NAO IMPLEMENTADO");
+            break;
+        case 3:
+            break;
+    }
+    /*Pede as coordenadas ao jogador e garante que estas estão dentro do tabuleiro*/
     do {
         getCoords(&x, &y, board->maxcol, board->maxrow);
     }while (!validateMove(board,x,y));
@@ -52,6 +112,20 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
         printf("Jogo terminado! parabens Jogador%c, ganhou o Jogo\n",currentPlayer->name);
         return;
     }
+
+    switch(menuPostPlay(currentPlayer,moves)){
+        case 1:
+            //todo: implementar aumentar tabuleiro
+            printf("Aumentar tabuleiro ainda NAO IMPLEMENTADO");
+            break;
+        case 2:
+            printf("Salvar Jogo ainda NAO IMPLEMENTADO");
+            break;
+        case 3:
+            break;
+    }
+
+    return;
 }
 
 //TODO: ALTERAR as colunas de INTs para CHAR!!!
@@ -59,22 +133,25 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 int main() {
 
     /*variaveis preenchidas pelo input do utilizador na func. setupBoard*/
-    int numcol , numrow;
+    int numcol, numrow;
 
     Player **players = createPlayers();
-
+    CoordList *moves = createList();
     Board *board;
-    CoordList *moves;
 
-    moves = createList();
+    switch (mainMenu()) {
+    case 1:
+            setupBoard(&numcol, &numrow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
+            board = createBoard(numcol, numrow);
+            gameLoop(board, players, moves);
+        break;
+    case 2:
+            printf("Not Yet Implemented!");
+        break;
+    }
 
-    printf("********** Jogo do Comilao **********\n");
-    printf("\n");
-    setupBoard(&numcol,&numrow,LIMMINCOL,LIMMAXCOL,LIMMINROW,LIMMAXROW);
-    board = createBoard(numcol,numrow);
-
-    gameLoop(board, players, moves);
     printMoves(moves,players);
+    printReport("teste1",board,moves);
     return 0;
 }
 

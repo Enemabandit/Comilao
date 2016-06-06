@@ -1,11 +1,19 @@
 #ifndef COMILAO_LIST_H
 #define COMILAO_LIST_H
 #include "utils.h"
+
+/*Estrura para cada elemento da lista*/
+typedef struct CoordNode{
+    int x,y;
+    struct CoordNode *next;
+} CoordNode;
+
 /*Lista ligada que contem as coordenadas escolhidas durante o jogo*/
 typedef struct CoordList{
     int size;
     struct CoordNode *list;
 } CoordList;
+
 
 /*Cria e inicializa a lista de moves*/
 CoordList* createList();

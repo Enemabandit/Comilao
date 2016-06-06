@@ -2,12 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/*Estrura local para cada elemento da lista*/
-typedef struct CoordNode{
-    int x,y;
-    struct CoordNode *next;
-} CoordNode;
-
 /*cria uma nova lista*/
 CoordList* createList(){
     CoordList* result = malloc(sizeof(CoordList));
@@ -41,7 +35,6 @@ void addNode(CoordList* list,int x, int y){
 /*Escreve os movimentos por jogador*/
 void printMoves(CoordList* moves,Player** players){
     CoordNode* currentNode = moves->list;
-    int i;
     int playerIndex = 0;
 
     do{
