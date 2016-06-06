@@ -2,8 +2,6 @@
 #define COMILAO_UTILS_H
 
 #include "board.h"
-#include "list.h"
-
 
 typedef struct Player {
     char name;

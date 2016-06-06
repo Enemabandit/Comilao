@@ -8,7 +8,7 @@
 #define LIMMAXROW 8
 
 #include "list.h"
-#include "utils.h"
+//#include "utils.h"
 
 typedef struct Board{
     int maxcol,maxrow;
