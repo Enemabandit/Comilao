@@ -1,8 +1,6 @@
 #ifndef COMILAO_LIST_H
 #define COMILAO_LIST_H
 
-#include "board.h"
-#include "list.h"
 #include "utils.h"
 
 /*Estrura para cada elemento da lista*/

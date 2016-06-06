@@ -7,7 +7,6 @@
 #define LIMMINROW 4
 #define LIMMAXROW 8
 
-#include "board.h"
 #include "list.h"
 #include "utils.h"
 
