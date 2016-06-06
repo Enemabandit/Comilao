@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "board.h"
+#include "list.h"
+#include "utils.h"
 
 //TODO: validacoes dos menus!!!
 /*Escreve o menu principal no ecra e devolve a opcao escolhida*/
