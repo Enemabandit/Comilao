@@ -2,6 +2,7 @@
 #include "board.h"
 #include "list.h"
 #include "utils.h"
+#include "file.h"
 
 //TODO: validacoes dos menus!!!
 /*Escreve o menu principal no ecra e devolve a opcao escolhida*/
@@ -88,6 +89,7 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 
     switch(menuPrePlay(currentPlayer,moves)){
         case 1:
+            //todo: jogo acaba quando tento printmoves na primeira jogada
             printMoves(moves,players);
             break;
         case 2:
@@ -108,24 +110,26 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
         printf("Jogo terminado! parabens Jogador%c, ganhou o Jogo\n",currentPlayer->name);
         return;
     }
-    else if (board->possibleMoves > 1)
+    else if (board->possibleMoves > 1) {
+        switch(menuPostPlay(currentPlayer,moves)){
+            case 1:
+                //todo: implementar aumentar tabuleiro
+                printf("Aumentar tabuleiro ainda NAO IMPLEMENTADO");
+                break;
+            case 2:
+                printf("Salvar Jogo ainda NAO IMPLEMENTADO");
+                break;
+            case 3:
+                break;
+        }
         gameLoop(board, players, moves);
+    }
         else {
         printf("Jogo terminado! parabens Jogador%c, ganhou o Jogo\n",currentPlayer->name);
         return;
     }
 
-    switch(menuPostPlay(currentPlayer,moves)){
-        case 1:
-            //todo: implementar aumentar tabuleiro
-            printf("Aumentar tabuleiro ainda NAO IMPLEMENTADO");
-            break;
-        case 2:
-            printf("Salvar Jogo ainda NAO IMPLEMENTADO");
-            break;
-        case 3:
-            break;
-    }
+
 
     return;
 }
@@ -153,7 +157,7 @@ int main() {
     }
 
     printMoves(moves,players);
-    printReport("teste1",board,moves);
+    printReport("/media/data/ISEC/2015-2016/Prog/Project/Comilao/teste1.txt",board,moves);
     return 0;
 }
 

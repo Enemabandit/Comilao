@@ -54,7 +54,7 @@ int validateIntInterval(int number, int min, int max,int interval){
 /*função que aloca a board em memória*/
 Board* allocateBoard(int numcol,int numrow){
     Board* result = malloc(sizeof(Board));
-    int i,j;
+    int i;
 
     result->maxcol = numcol - 1;
     result->maxrow = numrow - 1;
