@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include "board.h"
-#include "list.h"
-#include "utils.h"
 #include "file.h"
 
 //TODO: validacoes dos menus!!!
@@ -85,11 +83,17 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
     Player* currentPlayer = players[moves->size % 2] ;
 
     printf("Estado do Tabuleiro:\n");
+    /*
+    if(moves->size >= 1)
+        board->position[players[0]->x][players[0]->y] = players[0]->name;
+    if (moves->size>= 2)
+      board->position[players[1]->x][players[1]->y] = players[1]->name;*/
+
     printBoard(board);
 
     switch(menuPrePlay(currentPlayer,moves)){
         case 1:
-            //todo: jogo acaba quando tento printmoves na primeira jogada
+            //todo: jogo rebenta quando tento printmoves na primeira jogada
             printMoves(moves,players);
             break;
         case 2:
@@ -106,7 +110,7 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 
     /*Testa se o player em foco perdeu o jogo*/
     if(makeMoveAndTestFinish(board,currentPlayer,moves,x,y)) {
-        Player* currentPlayer = players[((moves->size)++) % 2] ;
+        Player* currentPlayer = players[((moves->size)+1) % 2] ;
         printf("Jogo terminado! parabens Jogador%c, ganhou o Jogo\n",currentPlayer->name);
         return;
     }
@@ -128,8 +132,6 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
         printf("Jogo terminado! parabens Jogador%c, ganhou o Jogo\n",currentPlayer->name);
         return;
     }
-
-
 
     return;
 }
@@ -157,7 +159,7 @@ int main() {
     }
 
     printMoves(moves,players);
-    printReport("/media/data/ISEC/2015-2016/Prog/Project/Comilao/teste1.txt",numcol,numrow,moves);
+    printReport("teste1.txt",numcol,numrow,moves);
     return 0;
 }
 

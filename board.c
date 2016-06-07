@@ -4,16 +4,15 @@
 #include <stdlib.h>
 
 /*Move o "cursor" para uma posição sem validar qualquer dos inputs*/
-void moveToCoords(Board *board,int x, int y){
+void moveToCoords(Board *board,int x, int y,char name){
     int i,j;
 
     for(i=x; i >= 0 ;i--) {
         for (j = y; j >= 0; j--) {
-            if (board->position[i][j] == '*') {
                 board->position[i][j] = ' ';
-            }
         }
     }
+
 }
 /*Move o jogador para a posição e testa se o jogo acabou (return 1 if finished else return 0)*/
 int makeMoveAndTestFinish(Board* board,Player* player,CoordList* moves,int x,int y){
@@ -25,8 +24,8 @@ int makeMoveAndTestFinish(Board* board,Player* player,CoordList* moves,int x,int
             for (j = y; j >= 0; j--) {
                 if (board->position[i][j] == '*') {
                     foodEaten++;
-                    board->position[i][j] = ' ';
-                }
+                    }
+                board->position[i][j] = ' ';
             }
         }
         player->x = x;

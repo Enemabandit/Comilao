@@ -6,7 +6,7 @@ typedef struct Player {
     int x,y;
 } Player;
 
-enum coordY{A,B,C,D,E,F,G,H,I,J};
+//typedef enum CoordY{A,B,C,D,E,F,G,H,I,J} CoordY;
 
 Player** createPlayers();
 
