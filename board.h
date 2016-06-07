@@ -16,6 +16,9 @@ typedef struct Board{
     char **position;
 }Board;
 
+/*Move o "cursor" para uma posição sem validar qualquer dos inputs*/
+void moveToCoords(Board *board,int x, int y);
+
 /*Move o jogador para a posição e testa se o jogo acabou (return 1 if finished else return 0)*/
 int makeMoveAndTestFinish(Board* board,Player* player,CoordList* moves,int x,int y);
 

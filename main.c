@@ -157,7 +157,7 @@ int main() {
     }
 
     printMoves(moves,players);
-    printReport("/media/data/ISEC/2015-2016/Prog/Project/Comilao/teste1.txt",board,moves);
+    printReport("/media/data/ISEC/2015-2016/Prog/Project/Comilao/teste1.txt",numcol,numrow,moves);
     return 0;
 }
 
