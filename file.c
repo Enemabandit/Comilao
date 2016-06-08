@@ -1,6 +1,32 @@
 #include "file.h"
 #include <stdio.h>
 
+//todo: Yet to be tested
+/*Funcao que guarda o jogo num ficheiro binário.*/
+void SaveGame(char* fileName,CoordList *moves){
+    FILE *saveFile = fopen(fileName,"wb");
+    CoordNode *nodeAux = moves->list;
+    int i;
+
+    if (saveFile == NULL){
+        printf("Erro ao criar Ficheiro");
+        return;
+    }
+    else {
+        fwrite(&moves->size, sizeof(int),1,saveFile);
+
+        for (i = 0; i < moves->size; i++) {
+            fwrite(&nodeAux->x, sizeof(int), 1, saveFile);
+            fwrite(&nodeAux->y, sizeof(int), 1, saveFile);
+
+            nodeAux = nodeAux->next;
+        }
+    }
+    if (fclose(saveFile) == 0)
+        printf("Jogo gravado com sucesso!");
+    else printf("Erro ao gravar Jogo!");
+}
+
 /*funcao que escreve a board no ficheiro de report, recebe as coordenadase o nome do jogador para
  * o escrever na respectiva posição */
 void printBoardToFile(FILE *file,Board *board,int x,int y, char name){
@@ -30,13 +56,15 @@ void printReport(char* fileName,int maxcol,int maxrow, CoordList *moves) {
     CoordNode *nodeAux = moves->list;
     Board *boardAux = createBoard(maxcol+1,maxrow+1);
     char playerName;
+    int i;
 
-    if (report == NULL)
+    if (report == NULL){
         printf("Erro ao criar Ficheiro");
+        return;
+        }
     else {
-        int i;
         for (i = 0; i < moves->size; i++) {
-            fprintf(report, "%i:", i);
+            fprintf(report, "%i:", i+1 );
 
             if (i % 2 == 0)
                 playerName = 'A';

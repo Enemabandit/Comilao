@@ -83,12 +83,6 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
     Player* currentPlayer = players[moves->size % 2] ;
 
     printf("Estado do Tabuleiro:\n");
-    /*
-    if(moves->size >= 1)
-        board->position[players[0]->x][players[0]->y] = players[0]->name;
-    if (moves->size>= 2)
-      board->position[players[1]->x][players[1]->y] = players[1]->name;*/
-
     printBoard(board);
 
     switch(menuPrePlay(currentPlayer,moves)){
@@ -97,10 +91,10 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
             printMoves(moves,players);
             break;
         case 2:
-            //TODO: implementar salvar jogo
-            printf("Salvar Jogo ainda NAO IMPLEMENTADO");
+            //TODO: pedir nome do ficheiro
+            SaveGame("SaveTest0",moves);
             break;
-        case 3:
+        default:
             break;
     }
     /*Pede as coordenadas ao jogador e garante que estas estão dentro do tabuleiro*/
@@ -121,9 +115,10 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
                 printf("Aumentar tabuleiro ainda NAO IMPLEMENTADO");
                 break;
             case 2:
-                printf("Salvar Jogo ainda NAO IMPLEMENTADO");
+                //TODO: pedir nome do ficheiro
+                SaveGame("SaveTest1",moves);
                 break;
-            case 3:
+            default:
                 break;
         }
         gameLoop(board, players, moves);
@@ -139,9 +134,8 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 //TODO: ALTERAR as colunas de INTs para CHAR!!!
 //TODO: Validar os inputs
 int main() {
-
     /*variaveis preenchidas pelo input do utilizador na func. setupBoard*/
-    int numcol, numrow;
+    int initCol, initRow;
 
     Player **players = createPlayers();
     CoordList *moves = createList();
@@ -149,8 +143,8 @@ int main() {
 
     switch (mainMenu()) {
     case 1:
-            setupBoard(&numcol, &numrow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
-            board = createBoard(numcol, numrow);
+            setupBoard(&initCol, &initRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
+            board = createBoard(initCol, initRow);
             gameLoop(board, players, moves);
         break;
     case 2:
@@ -159,7 +153,8 @@ int main() {
     }
 
     printMoves(moves,players);
-    printReport("teste1.txt",numcol,numrow,moves);
+    //TODO: pedir nome do ficheiro
+    printReport("teste1.txt",initCol,initRow,moves); //todo: quando for implementado o aumento do tabuleiro vou ter de mudar initCol e initRow
     return 0;
 }
 

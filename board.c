@@ -128,7 +128,7 @@ void setupBoard(int *numcol, int *numrow,int limMinCol, int limMaxCol,int limMin
 /*Escreve a board dada no ecrã*/
 void printBoard(Board* board){
     int i,j;
-    enum coordY coordY = 'A';
+    char coordY = 'A';
 
     printf(" ");
     for(j=0; j<=board->maxcol;j++) {
