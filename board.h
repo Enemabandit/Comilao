@@ -16,8 +16,11 @@ typedef struct Board{
     char **position;
 }Board;
 
+/*Preenche a board "carregada" com um lista de moves*/
+void loadMovesToBoard(Board *board,CoordList *moves);
+
 /*Move o "cursor" para uma posição sem validar qualquer dos inputs*/
-void moveToCoords(Board *board,int x, int y, char name);
+void moveToCoords(Board *board,int x, int y);
 
 /*Move o jogador para a posição e testa se o jogo acabou (return 1 if finished else return 0)*/
 int makeMoveAndTestFinish(Board* board,Player* player,CoordList* moves,int x,int y);
@@ -32,7 +35,7 @@ int validateIntInterval(int number, int min, int max,int interval);
 Board* createBoard(int numcol, int numrow);
 
 /*funcao que establece a dimencao da board*/
-void setupBoard(int *numcol, int *numrow,int limMinCol, int limMaxCol,int limMinRow,int limMaxRow);
+void setBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int limMinRow, int limMaxRow);
 
 /*Escreve a board dada no ecrã*/
 void printBoard(Board* board);

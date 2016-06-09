@@ -3,8 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*Preenche a board "carregada" com um lista de moves*/
+void loadMovesToBoard(Board *board,CoordList *moves){
+    int i;
+    CoordNode *nodeAux = moves->list;
+
+    for(i =0;i<moves->size;i++){
+        moveToCoords(board,nodeAux->x,nodeAux->y);
+
+        nodeAux = nodeAux->next;
+    }
+}
+
 /*Move o "cursor" para uma posição sem validar qualquer dos inputs*/
-void moveToCoords(Board *board,int x, int y,char name){
+void moveToCoords(Board *board,int x, int y){
     int i,j;
 
     for(i=x; i >= 0 ;i--) {
@@ -97,7 +109,7 @@ Board* createBoard(int numcol, int numrow){
 }
 
 /*funcao que establece a dimencao da board*/
-void setupBoard(int *numcol, int *numrow,int limMinCol, int limMaxCol,int limMinRow,int limMaxRow){
+void setBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int limMinRow, int limMaxRow){
     //input for the size of the board
     int invalid;
     do {

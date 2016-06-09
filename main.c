@@ -92,7 +92,7 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
             break;
         case 2:
             //TODO: pedir nome do ficheiro
-            SaveGame("SaveTest0",moves);
+            SaveGame("SaveTest",moves,board->maxcol,board->maxrow);
             break;
         default:
             break;
@@ -116,7 +116,7 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
                 break;
             case 2:
                 //TODO: pedir nome do ficheiro
-                SaveGame("SaveTest1",moves);
+                SaveGame("SaveTest",moves,board->maxcol,board->maxrow);
                 break;
             default:
                 break;
@@ -134,21 +134,30 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 //TODO: ALTERAR as colunas de INTs para CHAR!!!
 //TODO: Validar os inputs
 int main() {
-    /*variaveis preenchidas pelo input do utilizador na func. setupBoard*/
+    /*variaveis preenchidas pelo input do utilizador na func. setBoardSize*/
     int initCol, initRow;
-
+    //char* fileName[50];
     Player **players = createPlayers();
     CoordList *moves = createList();
     Board *board;
 
     switch (mainMenu()) {
-    case 1:
-            setupBoard(&initCol, &initRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
+        case 1:
+            setBoardSize(&initCol, &initRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
             board = createBoard(initCol, initRow);
             gameLoop(board, players, moves);
         break;
-    case 2:
-            printf("Not Yet Implemented!");
+        case 2:
+            //todo: NÂO ESTÀ A GUARDAR OS POSSIBLE MOVES!!!!  IMPORTANT!!!
+            //todo: pensar na possibilidade aumentar o tabuleiro quando se faz load de um save no menuPostPlay()
+            //printf("Introduza o nome do ficheiro: ");
+            //scanf("%s[50]",fileName);
+            readBoardSize("SaveTest", &initCol, &initRow);
+            board = createBoard(++initCol,++initRow);
+            getMovesFromFile("SaveTest", moves);
+            loadMovesToBoard(board,moves);
+            printf("Jogo Carregado!\n");
+            gameLoop(board,players,moves);
         break;
     }
 
