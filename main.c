@@ -2,6 +2,7 @@
 #include "board.h"
 #include "file.h"
 
+//TODO: IMPORTANTE!!! printReport não está a funcionar bem quando o tabuleiro é aumentado
 //TODO: validacoes dos menus!!!
 /*Escreve o menu principal no ecra e devolve a opcao escolhida*/
 int mainMenu() {
@@ -87,8 +88,10 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 
     switch(menuPrePlay(currentPlayer,moves)){
         case 1:
-            //todo: jogo rebenta quando tento printmoves na primeira jogada
-            printMoves(moves,players);
+            if (moves->size == 0)
+                printf("Ainda não foram realizadas jogadas!\n");
+            else
+                printMoves(moves,players);
             break;
         case 2:
             //TODO: pedir nome do ficheiro
@@ -112,7 +115,8 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
         switch(menuPostPlay(currentPlayer,moves)){
             case 1:
                 //todo: implementar aumentar tabuleiro
-                printf("Aumentar tabuleiro ainda NAO IMPLEMENTADO");
+                /*Aumenta uma linha e uma coluna a board dada*/
+                board = resizeBoard(board,moves);
                 break;
             case 2:
                 //TODO: pedir nome do ficheiro
@@ -148,7 +152,6 @@ int main() {
             gameLoop(board, players, moves);
         break;
         case 2:
-            //todo: NÂO ESTÀ A GUARDAR OS POSSIBLE MOVES!!!!  IMPORTANT!!!
             //todo: pensar na possibilidade aumentar o tabuleiro quando se faz load de um save no menuPostPlay()
             //printf("Introduza o nome do ficheiro: ");
             //scanf("%s[50]",fileName);
@@ -159,6 +162,7 @@ int main() {
             printf("Jogo Carregado!\n");
             gameLoop(board,players,moves);
         break;
+
     }
 
     printMoves(moves,players);

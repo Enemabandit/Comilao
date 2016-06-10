@@ -1,7 +1,6 @@
 #include "file.h"
 #include <stdio.h>
 
-//todo: Yet to be tested
 /*Funcao que guarda o jogo num ficheiro binário.*/
 void SaveGame(char* fileName,CoordList *moves,int maxCol,int maxRow){
     FILE *saveFile = fopen(fileName,"wb");

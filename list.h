@@ -3,6 +3,7 @@
 
 #include "utils.h"
 
+//todo: adicionar um booleano no coordlist para registar aumentos de tabuleiro
 /*Estrura para cada elemento da lista*/
 typedef struct CoordNode{
     int x,y;

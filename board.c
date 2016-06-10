@@ -3,6 +3,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*Aumenta uma linha e uma coluna a board dada*/
+Board* resizeBoard(Board *board,CoordList *moves){
+
+    /**/
+    Board* newBoard = createBoard((board->maxcol +2) ,(board->maxrow + 2));
+    /*nao é necessário inicializar o possible moves porque a funcao loadMovesToBoard ja o faz*/
+
+    loadMovesToBoard(newBoard,moves);
+    return newBoard;
+}
+/*Percorre a board e preenche na estrutura board o numero de moves possiveis*/
+void getPossibleMoves(Board *board){
+    int i,j;
+    board->possibleMoves = 0;
+
+    for(i=0;i <= board->maxcol;i++){
+        for (j=0; j<= board->maxrow;j++){
+            if(board->position[i][j] == '*')
+                board->possibleMoves++;
+        }
+    }
+}
+
 /*Preenche a board "carregada" com um lista de moves*/
 void loadMovesToBoard(Board *board,CoordList *moves){
     int i;
@@ -10,9 +33,9 @@ void loadMovesToBoard(Board *board,CoordList *moves){
 
     for(i =0;i<moves->size;i++){
         moveToCoords(board,nodeAux->x,nodeAux->y);
-
         nodeAux = nodeAux->next;
     }
+    getPossibleMoves(board);
 }
 
 /*Move o "cursor" para uma posição sem validar qualquer dos inputs*/
@@ -26,6 +49,7 @@ void moveToCoords(Board *board,int x, int y){
     }
 
 }
+
 /*Move o jogador para a posição e testa se o jogo acabou (return 1 if finished else return 0)*/
 int makeMoveAndTestFinish(Board* board,Player* player,CoordList* moves,int x,int y){
     int i,j;

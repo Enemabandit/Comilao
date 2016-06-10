@@ -16,6 +16,9 @@ typedef struct Board{
     char **position;
 }Board;
 
+/*Aumenta uma linha e uma coluna a board dada*/
+Board* resizeBoard(Board *board,CoordList *moves);
+
 /*Preenche a board "carregada" com um lista de moves*/
 void loadMovesToBoard(Board *board,CoordList *moves);
 
