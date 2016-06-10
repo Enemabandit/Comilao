@@ -5,7 +5,7 @@
 /*cria uma nova lista*/
 CoordList* createList(){
     CoordList* result = malloc(sizeof(CoordList));
-
+    result->timesResized = 0;
     result->list = NULL;
     result->size = 0;
     return result;
@@ -19,6 +19,7 @@ void addNode(CoordList* list,int x, int y){
 
     result->x = x;
     result->y = y;
+    result->resized = 0;
     result->next = NULL;
     if(list->size == 0){
         list->list = result;
@@ -39,11 +40,13 @@ void printMoves(CoordList* moves,Player** players){
 
     do{
         printf("Jogador: %c -> ",players[playerIndex % 2]->name);
-        printf("%i %i\n",++(currentNode->x),++(currentNode->y));
-
+        printf("%i %i ",++(currentNode->x),++(currentNode->y));
+        if(currentNode->resized == 1)
+            printf("Tabuleiro aumentado\n");
+        else printf("\n");
         playerIndex++;
         currentNode= currentNode->next;
     } while(currentNode != NULL);
 
-
+    printf("\n");
 }
