@@ -10,6 +10,6 @@ void readBoardSize(char *fileName, int *initCol, int *initRow);
 void getMovesFromFile(char *fileName, CoordList *moves);
 
 /*Gera um ficheiro .TXT com o report das jogadas e estados do tabuleiro*/
-void printReport(char* fileName,int numcol,int numrow, CoordList *moves);
+void printReport(char* fileName,int MaxCol,int maxRow, CoordList *moves);
 
 #endif //COMILAO_FILE_H

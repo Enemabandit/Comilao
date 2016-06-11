@@ -1,6 +1,27 @@
 #include "file.h"
 #include <stdio.h>
 
+/*funcao que corta a list num determinado node*/
+CoordList* cutMovesList(CoordList *moves,CoordNode *targetNode){
+    int i;
+    CoordList *movesAux=createList();
+    CoordNode *currentNode = moves->list;
+
+    movesAux->list =currentNode;
+
+    for(i = 0; i <moves->size; i++){
+        if(currentNode != targetNode) {
+            addNode(movesAux, currentNode->x, currentNode->y);
+            currentNode = currentNode->next;
+        }
+        else{
+            return movesAux;
+        }
+    }
+
+    return NULL;
+}
+
 /*Funcao que guarda o jogo num ficheiro binário.*/
 void SaveGame(char* fileName,CoordList *moves,int maxCol,int maxRow){
     FILE *saveFile = fopen(fileName,"wb");
@@ -98,10 +119,12 @@ void printBoardToFile(FILE *file,Board *board,int x,int y, char name){
 }
 
 /*Gera um ficheiro .TXT com o report das jogadas e estados do tabuleiro*/
-void printReport(char* fileName,int maxcol,int maxrow, CoordList *moves) {
+void printReport(char* fileName,int MaxCol,int maxRow, CoordList *moves) {
     FILE *report = fopen(fileName, "w");
     CoordNode *nodeAux = moves->list;
-    Board *boardAux = createBoard(maxcol+1,maxrow+1);
+    CoordList *movesAux = moves;
+    Board *boardAux = createBoard(MaxCol+1,maxRow+1);
+
     char playerName;
     int i;
 
@@ -119,13 +142,18 @@ void printReport(char* fileName,int maxcol,int maxrow, CoordList *moves) {
                 playerName = 'B';
 
             fprintf(report,"Jogador%c -> ", playerName);
-            fprintf(report, "%i%i", nodeAux->x, nodeAux->y);
+            fprintf(report, "%i%i\n", nodeAux->x, nodeAux->y);
+
             if (nodeAux->resized == 0) {
-                printf("\n");
                 moveToCoords(boardAux, nodeAux->x, nodeAux->y);
                 printBoardToFile(report, boardAux, nodeAux->x, nodeAux->y, playerName);
             } else {
-                printf(" -> Tabuleiro aumentado\n");
+                movesAux = cutMovesList(moves,nodeAux);
+                if (movesAux == NULL)
+                    printf("Erro ao cortar a lista de moves");
+                boardAux = resizeBoard(boardAux,movesAux);
+                moveToCoords(boardAux, nodeAux->x, nodeAux->y);
+                printBoardToFile(report, boardAux, nodeAux->x, nodeAux->y, playerName);
             }
 
             nodeAux = nodeAux->next;

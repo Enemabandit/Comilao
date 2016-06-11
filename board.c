@@ -3,12 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /*Aumenta uma linha e uma coluna a board dada*/
 Board* resizeBoard(Board *board,CoordList *moves){
     Board* newBoard;
 
-    /*A board não pode ser aumentada mais que 4 vezes*/
     newBoard = createBoard((board->maxcol +2) ,(board->maxrow + 2));
     /*nao é necessário inicializar o possible moves porque a funcao loadMovesToBoard ja o faz*/
     loadMovesToBoard(newBoard,moves);

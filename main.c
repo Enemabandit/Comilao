@@ -2,6 +2,7 @@
 #include "board.h"
 #include "file.h"
 
+//TODO: IMPORTANTE!!! free memória sempre que preciso!
 //TODO: IMPORTANTE!!! printReport não está a funcionar bem quando o tabuleiro é aumentado
 //TODO: validacoes dos menus!!!
 
@@ -32,11 +33,23 @@ void printLogo(){
     printf("     :--``             )/                    Jogo do Comilao\n");
 }
 
+void printWinner(Player *player){
+    printf("\n");
+    printf("             .'; \n");
+    printf("         .-'` .' \n");
+    printf("       ,`.-'-.`|     Jogo Terminado!\n");
+    printf("      ; /     '-'\n");
+    printf("     |  |       ,-,       Parabens Jogado%c\n",player->name );
+    printf("      |  '-.__   )_`'._        Ganhou o jogo!\n");
+    printf("       '.     ```      ``'--._ \n");
+    printf("      .-' ,                   `'-. \n");
+    printf("       '-'`-._           ((   o   ) \n");
+    printf("              `'--....(`- ,__..--' \n");
+    printf("                       '-'` \n");
+}
 /*Escreve o menu principal no ecra e devolve a opcao escolhida*/
 int mainMenu() {
     int result;
-
-
     printLogo();
     printf("                                               |1)Novo Jogo\n");
     printf("                                               |2)Carregar Jogo\n");
@@ -129,8 +142,10 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 
     /*Testa se o player em foco perdeu o jogo*/
     if(makeMoveAndTestFinish(board,currentPlayer,moves,x,y)) {
-        Player* currentPlayer = players[((moves->size)+1) % 2] ;
-        printf("Jogo terminado! parabens Jogador%c, ganhou o Jogo\n",currentPlayer->name);
+        printf("Apanhado no isco!\n");
+        Player* currentPlayer = players[((moves->size)) % 2];
+        printWinner(currentPlayer);
+
         return;
     }
     else if (board->possibleMoves > 1) {
@@ -144,7 +159,8 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
         gameLoop(board, players, moves);
     }
         else {
-        printf("Jogo terminado! parabens Jogador%c, ganhou o Jogo\n",currentPlayer->name);
+        printf("Não ha mais jogadas possíveis!\n");
+        printWinner(currentPlayer);
         return;
     }
 
