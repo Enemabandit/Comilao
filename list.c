@@ -38,6 +38,7 @@ void printMoves(CoordList* moves,Player** players){
     CoordNode* currentNode = moves->list;
     int playerIndex = 0;
 
+    printf("\n");
     do{
         printf("Jogador: %c -> ",players[playerIndex % 2]->name);
         printf("%i %i ",++(currentNode->x),++(currentNode->y));

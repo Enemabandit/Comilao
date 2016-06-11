@@ -152,9 +152,10 @@ Board* createBoard(int numcol, int numrow){
 void getBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int limMinRow, int limMaxRow){
     //input for the size of the board
     int invalid;
+    printf("Introduza as dimencoes do Tabuleiro:\n");
     do {
         do {
-            printf("Introduza o numero de colunas(entre %i e %i): ",limMinCol,limMaxCol);
+            printf("  |numero de colunas(entre %i e %i) -> ",limMinCol,limMaxCol);
             scanf("%i", numcol);
             if (validateIntInterval(*numcol,limMinCol,limMaxCol,2) != 1) {
                 printf("este input nao e valido\n");
@@ -163,7 +164,7 @@ void getBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int li
             else invalid = 0;
         } while (invalid);
         do {
-            printf("Introduza o numero de linhas (entre %i e %i): ",limMinRow,limMaxRow);
+            printf("  |numero de linhas (entre %i e %i) -> ",limMinRow,limMaxRow);
             scanf("%i", numrow);
             if (validateIntInterval(*numrow,limMinRow,limMaxRow,2) != 1 ) {
                 printf("Este input nao e valido!\n");
@@ -171,10 +172,10 @@ void getBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int li
             }
             else invalid = 0;
         } while (invalid);
-        printf("\n");
         if (*numcol <= *numrow) {printf("O numero de colunas tem de ser superior ao numero de linhas!\n");}
     } while (*numcol <= *numrow);
     printf("\nJogo inciado com sucesso!\n");
+    printf("\n");
 }
 
 /*Escreve a board dada no ecrã*/
@@ -182,7 +183,7 @@ void printBoard(Board* board){
     int i,j;
     char coordY = 'A';
 
-    printf(" ");
+    printf("   ");
     for(j=0; j<=board->maxcol;j++) {
         printf(" %c", coordY);
         coordY++;
@@ -190,7 +191,7 @@ void printBoard(Board* board){
     printf("\n");
 
     for(i = 0; i <= board->maxrow; i++){
-        printf("%i",i+1);
+        printf("  %i",i+1);
         for(j = 0; j <= board->maxcol; j++){
            printf("|%c",board->position[j][i]);
         }

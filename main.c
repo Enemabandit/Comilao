@@ -4,18 +4,44 @@
 
 //TODO: IMPORTANTE!!! printReport não está a funcionar bem quando o tabuleiro é aumentado
 //TODO: validacoes dos menus!!!
+
+void printLogo(){
+
+    printf("                   /""-._ \n");
+    printf("                  .      '-,\n");
+    printf("                  :         '', \n");
+    printf("                  ;      *     '. \n");
+    printf("                  ' *         () '. \n");
+    printf("                   |               | \n");
+    printf("                    |      _.---.._ '. \n");
+    printf("                     :  .' _.--''-''  | ,' \n");
+    printf("       .._            '/.'             . ; \n");
+    printf("        ; `-.          ,                | \n");
+    printf("         ;   `,         ;              ._| \n");
+    printf("          ;    |     _,-'                ''--._ \n");
+    printf("           :    |_,-'                          '-._ \n");
+    printf("            | ,-'                       .          '-._ \n");
+    printf("           .'         __.-'';             ...,__       '. \n");
+    printf("          .'      _,-'       |              |   ''--.,__ '| \n");
+    printf("         /   _,--' ;          |             ;            ^.} \n");
+    printf("        ;_,-' )     |  )      )              ; \n");
+    printf("             /       V  |_.,-'               ; \n");
+    printf("            /                               ; \n");
+    printf("         ,-'  _,-'''-.    ,-.,             ; \n");
+    printf("      ,-' _.-'        |  /    |/'-._...--' \n");
+    printf("     :--``             )/                    Jogo do Comilao\n");
+}
+
 /*Escreve o menu principal no ecra e devolve a opcao escolhida*/
 int mainMenu() {
     int result;
 
-    printf("********** Jogo do Comilao **********\n");
-    printf("*                                   *\n");
-    printf("*   1)Novo Jogo                     *\n");
-    printf("*   2)Carregar Jogo                 *\n");
-    printf("*                                   *\n");
-    printf("*************************************\n");
+
+    printLogo();
+    printf("                                               |1)Novo Jogo\n");
+    printf("                                               |2)Carregar Jogo\n");
     do {
-        printf("   Opcao: ");;
+        printf("   Opcao: ");
         scanf("%i",&result);
         if (result != 1 && result != 2) printf("Opção inválida!\n");
     } while (result != 1 &&result != 2);
@@ -29,7 +55,7 @@ int menuPrePlay(Player* player,CoordList *moves){
     printf("  |Jogada n:%i\n",(moves->size +1));
     printf("  |  1)Mostrar Jogadas Realizadas\n");
     printf("  |  2)Salvar Jogo\n");
-    printf("  |  3)Continuar\n");
+    printf("  |  3)Introduzir Coordenadas\n");
     do {
         printf("  |Opcao -> ");;
         scanf("%i",&result);
@@ -40,15 +66,14 @@ int menuPrePlay(Player* player,CoordList *moves){
 /*Escreve o menu posterior a realização de uma jogada no ecra e devolve a opcao escolida*/
 int menuPostPlay(Player* player,CoordList *moves){
     int result;
-    printf("Jogador%c\n",player->name);
-    printf("  |Jogada n:%i\n",(moves->size));
     printf("  |  1)Aumentar Tabuleiro\n");
-    printf("  |  2)Continuar\n");
+    printf("  |  2)Finalizar Jogada\n");
     do {
         printf("   Opcao: ");;
         scanf("%i",&result);
         if (result != 1 && result != 2) printf("Opção inválida!\n");
     } while (result != 1 && result != 2);
+    printf("\n");
     return result;
 };
 /*Pede as coordenadas ao utilizador e garante que estão contidas na board*/
@@ -56,7 +81,7 @@ void getCoords(int *x,int *y,int maxCol,int maxRow){
     int invalid;
 
     do {
-        printf("Introduza a coordenada x:");
+        printf("    Introduza a coordenada x -> ");
         scanf("%i", x);
         (*x)--;
         if(validateIntInterval(*x,0,maxCol,2) != 1) {
@@ -66,7 +91,7 @@ void getCoords(int *x,int *y,int maxCol,int maxRow){
     }while(invalid);
 
     do {
-        printf("Introduza a coordenada y:");
+        printf("    Introduza a coordenada y -> ");
         scanf("%i", y);
         (*y)--;
         if(validateIntInterval(*y,0,maxRow,2) != 1) {
