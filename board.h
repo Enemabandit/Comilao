@@ -38,7 +38,7 @@ int validateIntInterval(int number, int min, int max,int interval);
 Board* createBoard(int numcol, int numrow);
 
 /*funcao que establece a dimencao da board*/
-void setBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int limMinRow, int limMaxRow);
+void getBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int limMinRow, int limMaxRow);
 
 /*Escreve a board dada no ecrã*/
 void printBoard(Board* board);

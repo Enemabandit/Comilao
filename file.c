@@ -119,12 +119,14 @@ void printReport(char* fileName,int maxcol,int maxrow, CoordList *moves) {
                 playerName = 'B';
 
             fprintf(report,"Jogador%c -> ", playerName);
-            fprintf(report, "%i%i\n", nodeAux->x, nodeAux->y);
-
-
-            moveToCoords(boardAux,nodeAux->x,nodeAux->y);
-
-            printBoardToFile(report,boardAux,nodeAux->x,nodeAux->y,playerName);
+            fprintf(report, "%i%i", nodeAux->x, nodeAux->y);
+            if (nodeAux->resized == 0) {
+                printf("\n");
+                moveToCoords(boardAux, nodeAux->x, nodeAux->y);
+                printBoardToFile(report, boardAux, nodeAux->x, nodeAux->y, playerName);
+            } else {
+                printf(" -> Tabuleiro aumentado\n");
+            }
 
             nodeAux = nodeAux->next;
         }

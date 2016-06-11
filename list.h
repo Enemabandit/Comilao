@@ -6,6 +6,7 @@
 //todo: adicionar um booleano no coordlist para registar aumentos de tabuleiro
 /*Estrura para cada elemento da lista*/
 typedef struct CoordNode{
+    int resized;
     int x,y;
     struct CoordNode *next;
 } CoordNode;
@@ -13,6 +14,7 @@ typedef struct CoordNode{
 /*Lista ligada que contem as coordenadas escolhidas durante o jogo*/
 typedef struct CoordList{
     int size;
+    int timesResized;
     struct CoordNode *list;
 } CoordList;
 

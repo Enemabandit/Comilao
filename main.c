@@ -43,13 +43,12 @@ int menuPostPlay(Player* player,CoordList *moves){
     printf("Jogador%c\n",player->name);
     printf("  |Jogada n:%i\n",(moves->size));
     printf("  |  1)Aumentar Tabuleiro\n");
-    printf("  |  2)Salvar Jogo\n");
-    printf("  |  3)Continuar\n");
+    printf("  |  2)Continuar\n");
     do {
         printf("   Opcao: ");;
         scanf("%i",&result);
-        if (result != 1 && result != 2 && result !=3) printf("Opção inválida!\n");
-    } while (result != 1 && result != 2 && result !=3);
+        if (result != 1 && result != 2) printf("Opção inválida!\n");
+    } while (result != 1 && result != 2);
     return result;
 };
 /*Pede as coordenadas ao utilizador e garante que estão contidas na board*/
@@ -97,8 +96,6 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
             //TODO: pedir nome do ficheiro
             SaveGame("SaveTest",moves,board->maxcol,board->maxrow);
             break;
-        default:
-            break;
     }
     /*Pede as coordenadas ao jogador e garante que estas estão dentro do tabuleiro*/
     do {
@@ -118,12 +115,6 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
                 /*Aumenta uma linha e uma coluna a board dada*/
                 board = resizeBoard(board,moves);
                 break;
-            case 2:
-                //TODO: pedir nome do ficheiro
-                SaveGame("SaveTest",moves,board->maxcol,board->maxrow);
-                break;
-            default:
-                break;
         }
         gameLoop(board, players, moves);
     }
@@ -138,7 +129,7 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 //TODO: ALTERAR as colunas de INTs para CHAR!!!
 //TODO: Validar os inputs
 int main() {
-    /*variaveis preenchidas pelo input do utilizador na func. setBoardSize*/
+    /*variaveis preenchidas pelo input do utilizador na func. getBoardSize*/
     int initCol, initRow;
     //char* fileName[50];
     Player **players = createPlayers();
@@ -147,12 +138,11 @@ int main() {
 
     switch (mainMenu()) {
         case 1:
-            setBoardSize(&initCol, &initRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
+            getBoardSize(&initCol, &initRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
             board = createBoard(initCol, initRow);
             gameLoop(board, players, moves);
         break;
         case 2:
-            //todo: pensar na possibilidade aumentar o tabuleiro quando se faz load de um save no menuPostPlay()
             //printf("Introduza o nome do ficheiro: ");
             //scanf("%s[50]",fileName);
             readBoardSize("SaveTest", &initCol, &initRow);

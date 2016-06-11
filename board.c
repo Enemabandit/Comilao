@@ -3,14 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 /*Aumenta uma linha e uma coluna a board dada*/
 Board* resizeBoard(Board *board,CoordList *moves){
+    Board* newBoard;
 
-    /**/
-    Board* newBoard = createBoard((board->maxcol +2) ,(board->maxrow + 2));
+    /*A board não pode ser aumentada mais que 4 vezes*/
+    newBoard = createBoard((board->maxcol +2) ,(board->maxrow + 2));
     /*nao é necessário inicializar o possible moves porque a funcao loadMovesToBoard ja o faz*/
-
     loadMovesToBoard(newBoard,moves);
+    moves->timesResized++;
+
     return newBoard;
 }
 /*Percorre a board e preenche na estrutura board o numero de moves possiveis*/
@@ -26,16 +29,29 @@ void getPossibleMoves(Board *board){
     }
 }
 
-/*Preenche a board "carregada" com um lista de moves*/
+void setResizedMove(CoordList *moves){
+    CoordNode *nodeAux = moves->list;
+
+    if(nodeAux->next !=NULL) {
+        do {
+            nodeAux = nodeAux->next;
+        } while (nodeAux->next != NULL);
+        nodeAux->resized = 1;
+    }
+    else nodeAux->resized = 1;
+    return;
+}
+/*Preenche a board "carregada" com um lista de moves e regista o facto do tamanho ter sido aumentado*/
 void loadMovesToBoard(Board *board,CoordList *moves){
     int i;
     CoordNode *nodeAux = moves->list;
 
-    for(i =0;i<moves->size;i++){
+    for(i = 0;i < moves->size;i++){
         moveToCoords(board,nodeAux->x,nodeAux->y);
         nodeAux = nodeAux->next;
     }
     getPossibleMoves(board);
+    setResizedMove (moves);
 }
 
 /*Move o "cursor" para uma posição sem validar qualquer dos inputs*/
@@ -133,7 +149,7 @@ Board* createBoard(int numcol, int numrow){
 }
 
 /*funcao que establece a dimencao da board*/
-void setBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int limMinRow, int limMaxRow){
+void getBoardSize(int *numcol, int *numrow, int limMinCol, int limMaxCol, int limMinRow, int limMaxRow){
     //input for the size of the board
     int invalid;
     do {
