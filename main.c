@@ -117,32 +117,36 @@ void getCoords(int *x,int *y,int maxCol,int maxRow){
 }
 
 /*Funcao recursiva que corre cada passo do jogo*/
-void gameLoop(Board *board, Player **players, CoordList *moves){
+void gameLoop(Board *board, Player **players, CoordList *moves) {
     int x, y;
     /*Alterna o player em foco*/
-    Player* currentPlayer = players[moves->size % 2] ;
+    Player *currentPlayer = players[moves->size % 2];
 
-    printf("Estado do Tabuleiro:\n");
+    if (players[1]->isBot = 0)
+        printf("Estado do Tabuleiro:\n");
     printBoard(board);
-
-    switch(menuPrePlay(currentPlayer,moves)){
+    switch (menuPrePlay(currentPlayer, moves)) {
         case 1:
             if (moves->size == 0)
                 printf("Ainda não foram realizadas jogadas!\n");
             else
-                printMoves(moves,players);
+                printMoves(moves, players);
             break;
         case 2:
             //TODO: pedir nome do ficheiro
-            SaveGame("SaveTest",moves,board->maxcol,board->maxrow);
+            SaveGame("SaveTest", moves, board);
             exit(0);
         default:
             break;
     }
-    /*Pede as coordenadas ao jogador e garante que estas estão dentro do tabuleiro*/
+
+        /*Pede as coordenadas ao jogador e garante que estas estão dentro do tabuleiro*/
     do {
-        getCoords(&x, &y, board->maxcol, board->maxrow);
-    }while (!validateMove(board,x,y));
+        if (players[1]->isBot = 0)
+            getCoords(&x, &y, board->maxcol, board->maxrow);
+        else
+            generateCoords(&x,&y,players[0]->x,players[0]->y,board->maxcol,board->maxrow);
+    } while (!validateMove(board, x, y));
 
     /*Testa se o player em foco perdeu o jogo*/
     if(makeMoveAndTestFinish(board,currentPlayer,moves,x,y)) {
@@ -176,26 +180,31 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
 //TODO: Validar os inputs
 int main() {
     /*variaveis preenchidas pelo input do utilizador na func. getBoardSize*/
-    int initCol, initRow;
-    //char* fileName[50];
-    Player **players = createPlayers();
+    int maxCol,maxRow;
+    int initNumCol,initNumRow;
+    Player **players;
     CoordList *moves = createList();
     Board *board;
 
     switch (mainMenu()) {
         case 1:
-            getBoardSize(&initCol, &initRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
-            board = createBoard(initCol, initRow);
+            players = createPlayers(0);
+            getBoardSize(&initNumCol, &initNumRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
+            board = createBoard(initNumCol, initNumRow);
             gameLoop(board, players, moves);
             break;
         case 2:
+
 
             break;
         case 3:
             //printf("Introduza o nome do ficheiro: ");
             //scanf("%s[50]",fileName);
-            readBoardSize("SaveTest", &initCol, &initRow);
-            board = createBoard(initCol,initRow);
+            players = createPlayers(0);
+            readBoardSize("SaveTest", &initNumCol,&initNumRow,&maxCol, &maxRow);
+            board = createBoard(maxCol,maxRow);
+            board->initNumCol = initNumCol;
+            board->initNumRow = initNumRow;
             getMovesFromFile("SaveTest", moves);
             loadMovesToBoard(board,moves);
             printf("Jogo Carregado!\n");
@@ -207,7 +216,7 @@ int main() {
 
     printMoves(moves,players);
     //TODO: pedir nome do ficheiro
-    printReport("teste1.txt",initCol,initRow,moves); //todo: quando for implementado o aumento do tabuleiro vou ter de mudar initCol e initRow
+    printReport("teste1.txt",board->initNumCol,board->initNumRow,moves); //todo: quando for implementado o aumento do tabuleiro vou ter de mudar initCol e initRow
     return 0;
 }
 

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//todo: mudar a lista e maneira a só aumentaro size e não copiar a lista
 /*funcao que corta a list num determinado node*/
 CoordList* cutMovesList(CoordList *moves,CoordNode *targetNode){
     int i;
@@ -25,21 +26,23 @@ CoordList* cutMovesList(CoordList *moves,CoordNode *targetNode){
 }
 
 /*Funcao que guarda o jogo num ficheiro binário.*/
-void SaveGame(char* fileName,CoordList *moves,int maxCol,int maxRow){
+void SaveGame(char* fileName,CoordList *moves,Board *board){
     FILE *saveFile = fopen(fileName,"wb");
     CoordNode *nodeAux = moves->list;
     int i;
+    int maxcol = board->maxcol + 1;
+    int maxrow = board->maxrow + 1;
 
-    maxCol++;
-    maxRow++;
 
     if (saveFile == NULL){
         printf("Erro ao criar Ficheiro");
         return;
     }
     else {
-        fwrite(&maxCol,sizeof(int),1,saveFile);
-        fwrite(&maxRow,sizeof(int),1,saveFile);
+        fwrite(&board->initNumCol,sizeof(int),1,saveFile);
+        fwrite(&board->initNumRow,sizeof(int),1,saveFile);
+        fwrite(&maxcol,sizeof(int),1,saveFile);
+        fwrite(&maxrow,sizeof(int),1,saveFile);
         fwrite(&moves->size, sizeof(int),1,saveFile);
         for (i = 0; i < moves->size; i++) {
             fwrite(&nodeAux->resized, sizeof(int),1, saveFile);
@@ -54,7 +57,7 @@ void SaveGame(char* fileName,CoordList *moves,int maxCol,int maxRow){
 }
 
 /*funcao que le do ficheiro o camanho da board*/
-void readBoardSize(char *fileName, int *initCol, int *initRow){
+void readBoardSize(char *fileName, int *initNumCol,int *initNumRow,int *maxCol, int *maxRow){
     FILE* loadedFile = fopen(fileName,"rb");
 
     if (loadedFile == NULL){
@@ -62,8 +65,11 @@ void readBoardSize(char *fileName, int *initCol, int *initRow){
         return;
     }
     else {
-        fread(initCol, sizeof(int), 1, loadedFile);
-        fread(initRow, sizeof(int), 1, loadedFile);
+
+        fread(initNumCol, sizeof(int), 1, loadedFile);
+        fread(initNumRow, sizeof(int), 1, loadedFile);
+        fread(maxCol, sizeof(int), 1, loadedFile);
+        fread(maxRow, sizeof(int), 1, loadedFile);
     }
 
     if (fclose(loadedFile) == 0)

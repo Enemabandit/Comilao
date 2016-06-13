@@ -3,9 +3,9 @@
 #include "board.h"
 
 /*Funcao que guarda o jogo num ficheiro binário. Todo: precisa de revisão quando implementar o aumentar ficheiro */
-void SaveGame(char* fileName,CoordList *moves,int maxCol,int maxRow);
+void SaveGame(char* fileName,CoordList *moves,Board *board);
 /*funcao que le do ficheiro o camanho da board*/
-void readBoardSize(char *fileName, int *initCol, int *initRow);
+void readBoardSize(char *fileName, int *initNumCol,int *initNumRow, int *maxCol, int *maxRow);
 
 void getMovesFromFile(char *fileName, CoordList *moves);
 
