@@ -53,7 +53,7 @@ int mainMenu() {
     int result;
     printLogo();
     printf("                                               |1)Novo Jogo\n");
-    printf("                                               |2)Jogadar vs bot\n");
+    printf("                                               |2)Jogar vs bot\n");
     printf("                                               |3)Carregar Jogo\n");
     do {
         printf("   Opcao: ");
@@ -189,13 +189,13 @@ int main() {
             gameLoop(board, players, moves);
             break;
         case 2:
-            printf("Nao implementado!");
+
             break;
         case 3:
             //printf("Introduza o nome do ficheiro: ");
             //scanf("%s[50]",fileName);
             readBoardSize("SaveTest", &initCol, &initRow);
-            board = createBoard(++initCol,++initRow);
+            board = createBoard(initCol,initRow);
             getMovesFromFile("SaveTest", moves);
             loadMovesToBoard(board,moves);
             printf("Jogo Carregado!\n");

@@ -42,7 +42,7 @@ void printMoves(CoordList* moves,Player** players){
     printf("\n");
     do{
         printf("Jogador: %c -> ",players[playerIndex % 2]->name);
-        printf("%i %i ",++(currentNode->x),++(currentNode->y));
+        printf("%i %i ",currentNode->x +1,currentNode->y+1);
         if(currentNode->resized == 1)
             printf("Tabuleiro aumentado\n");
         else printf("\n");

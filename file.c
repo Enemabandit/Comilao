@@ -30,6 +30,9 @@ void SaveGame(char* fileName,CoordList *moves,int maxCol,int maxRow){
     CoordNode *nodeAux = moves->list;
     int i;
 
+    maxCol++;
+    maxRow++;
+
     if (saveFile == NULL){
         printf("Erro ao criar Ficheiro");
         return;
@@ -147,7 +150,7 @@ void printReport(char* fileName,int initCol,int initRow, CoordList *moves) {
                 playerName = 'B';
 
             fprintf(report,"Jogador%c -> ", playerName);
-            fprintf(report, "%i%i\n", nodeAux->x, nodeAux->y);
+            fprintf(report, "%i%i\n", nodeAux->x + 1, nodeAux->y + 1);
 
             if (nodeAux->resized == 0) {
                 moveToCoords(boardAux, nodeAux->x, nodeAux->y);
