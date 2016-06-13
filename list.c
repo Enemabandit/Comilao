@@ -5,7 +5,6 @@
 /*cria uma nova lista*/
 CoordList* createList(){
     CoordList* result = malloc(sizeof(CoordList));
-    result->timesResized = 0;
     result->list = NULL;
     result->size = 0;
     return result;
@@ -33,6 +32,8 @@ void addNode(CoordList* list,int x, int y){
     list->size++;
 }
 
+
+
 /*Escreve os movimentos por jogador*/
 void printMoves(CoordList* moves,Player** players){
     CoordNode* currentNode = moves->list;
@@ -50,4 +51,16 @@ void printMoves(CoordList* moves,Player** players){
     } while(currentNode != NULL);
 
     printf("\n");
+}
+/*actualiza o valor da variavel resized no ultimo nó da lista dada*/
+void updateLastNodeResizedValue(CoordList *moves){
+    int i;
+    CoordNode *nodeAux = moves->list;
+
+    for (i = 0; i < moves->size; ++i) {
+        if (nodeAux->next != NULL)
+            nodeAux= nodeAux->next;
+        else
+            nodeAux->resized = 1;
+    }
 }

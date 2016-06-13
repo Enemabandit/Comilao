@@ -3,14 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//TODO: free board and allchars!!
 /*Aumenta uma linha e uma coluna a board dada*/
 Board* resizeBoard(Board *board,CoordList *moves){
     Board* newBoard;
 
     newBoard = createBoard((board->maxcol +2) ,(board->maxrow + 2));
+    newBoard->initNumCol = board->initNumCol;
+    newBoard->initNumRow = board->initNumRow;
     /*nao é necessário inicializar o possible moves porque a funcao loadMovesToBoard ja o faz*/
     loadMovesToBoard(newBoard,moves);
-    moves->timesResized++;
 
     return newBoard;
 }
@@ -30,13 +32,9 @@ void getPossibleMoves(Board *board){
 void setResizedMove(CoordList *moves){
     CoordNode *nodeAux = moves->list;
 
-    if(nodeAux->next !=NULL) {
-        do {
+        while (nodeAux->next != NULL)
             nodeAux = nodeAux->next;
-        } while (nodeAux->next != NULL);
         nodeAux->resized = 1;
-    }
-    else nodeAux->resized = 1;
     return;
 }
 /*Preenche a board "carregada" com um lista de moves e regista o facto do tamanho ter sido aumentado*/
@@ -117,6 +115,8 @@ Board* allocateBoard(int numcol,int numrow){
     Board* result = malloc(sizeof(Board));
     int i;
 
+    result->initNumCol = numcol;
+    result->initNumRow = numrow;
     result->maxcol = numcol - 1;
     result->maxrow = numrow - 1;
     result->possibleMoves = numcol * numrow;

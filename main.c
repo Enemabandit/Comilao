@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "board.h"
 #include "file.h"
 
@@ -52,12 +53,13 @@ int mainMenu() {
     int result;
     printLogo();
     printf("                                               |1)Novo Jogo\n");
-    printf("                                               |2)Carregar Jogo\n");
+    printf("                                               |2)Jogadar vs bot\n");
+    printf("                                               |3)Carregar Jogo\n");
     do {
         printf("   Opcao: ");
         scanf("%i",&result);
-        if (result != 1 && result != 2) printf("Opção inválida!\n");
-    } while (result != 1 &&result != 2);
+        if (result != 1 && result != 2 && result != 3) printf("Opção inválida!\n");
+    } while (result != 1 &&result != 2 && result != 3);
 
     return result;
 }
@@ -77,7 +79,7 @@ int menuPrePlay(Player* player,CoordList *moves){
     return result;
 };
 /*Escreve o menu posterior a realização de uma jogada no ecra e devolve a opcao escolida*/
-int menuPostPlay(Player* player,CoordList *moves){
+int menuPostPlay(){
     int result;
     printf("  |  1)Aumentar Tabuleiro\n");
     printf("  |  2)Finalizar Jogada\n");
@@ -133,6 +135,8 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
         case 2:
             //TODO: pedir nome do ficheiro
             SaveGame("SaveTest",moves,board->maxcol,board->maxrow);
+            exit(0);
+        default:
             break;
     }
     /*Pede as coordenadas ao jogador e garante que estas estão dentro do tabuleiro*/
@@ -149,11 +153,12 @@ void gameLoop(Board *board, Player **players, CoordList *moves){
         return;
     }
     else if (board->possibleMoves > 1) {
-        switch(menuPostPlay(currentPlayer,moves)){
+        switch(menuPostPlay()){
             case 1:
-                //todo: implementar aumentar tabuleiro
                 /*Aumenta uma linha e uma coluna a board dada*/
                 board = resizeBoard(board,moves);
+                break;
+            default:
                 break;
         }
         gameLoop(board, players, moves);
@@ -182,8 +187,11 @@ int main() {
             getBoardSize(&initCol, &initRow, LIMMINCOL, LIMMAXCOL, LIMMINROW, LIMMAXROW);
             board = createBoard(initCol, initRow);
             gameLoop(board, players, moves);
-        break;
+            break;
         case 2:
+            printf("Nao implementado!");
+            break;
+        case 3:
             //printf("Introduza o nome do ficheiro: ");
             //scanf("%s[50]",fileName);
             readBoardSize("SaveTest", &initCol, &initRow);
@@ -192,7 +200,8 @@ int main() {
             loadMovesToBoard(board,moves);
             printf("Jogo Carregado!\n");
             gameLoop(board,players,moves);
-        break;
+            break;
+
 
     }
 

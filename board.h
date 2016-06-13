@@ -11,6 +11,8 @@
 #include "utils.h"
 
 typedef struct Board{
+
+    int initNumCol,initNumRow;
     int maxcol,maxrow;
     int possibleMoves;
     char **position;

@@ -1,5 +1,6 @@
 #include "file.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /*funcao que corta a list num determinado node*/
 CoordList* cutMovesList(CoordList *moves,CoordNode *targetNode){
@@ -19,6 +20,7 @@ CoordList* cutMovesList(CoordList *moves,CoordNode *targetNode){
         }
     }
 
+
     return NULL;
 }
 
@@ -37,9 +39,9 @@ void SaveGame(char* fileName,CoordList *moves,int maxCol,int maxRow){
         fwrite(&maxRow,sizeof(int),1,saveFile);
         fwrite(&moves->size, sizeof(int),1,saveFile);
         for (i = 0; i < moves->size; i++) {
+            fwrite(&nodeAux->resized, sizeof(int),1, saveFile);
             fwrite(&nodeAux->x, sizeof(int), 1, saveFile);
             fwrite(&nodeAux->y, sizeof(int), 1, saveFile);
-
             nodeAux = nodeAux->next;
         }
     }
@@ -68,7 +70,7 @@ void readBoardSize(char *fileName, int *initCol, int *initRow){
 
 void getMovesFromFile(char *fileName, CoordList *moves){
     FILE* loadedFile = fopen(fileName,"rb");
-    int xAux,yAux,totalMoves;
+    int xAux,yAux,totalMoves,resizedAux;
 
     int i;
 
@@ -81,10 +83,13 @@ void getMovesFromFile(char *fileName, CoordList *moves){
         fread(&totalMoves,sizeof(int),1,loadedFile);
 
         for(i=0;i<totalMoves;i++){
+            fread(&resizedAux,sizeof(int),1,loadedFile);
             fread(&xAux,sizeof(int),1,loadedFile);
             fread(&yAux,sizeof(int),1,loadedFile);
 
             addNode(moves,xAux,yAux);
+            if (resizedAux != 0)
+                updateLastNodeResizedValue(moves);
         }
 
     }
@@ -119,11 +124,11 @@ void printBoardToFile(FILE *file,Board *board,int x,int y, char name){
 }
 
 /*Gera um ficheiro .TXT com o report das jogadas e estados do tabuleiro*/
-void printReport(char* fileName,int MaxCol,int maxRow, CoordList *moves) {
+void printReport(char* fileName,int initCol,int initRow, CoordList *moves) {
     FILE *report = fopen(fileName, "w");
     CoordNode *nodeAux = moves->list;
-    CoordList *movesAux = moves;
-    Board *boardAux = createBoard(MaxCol+1,maxRow+1);
+    CoordList *movesAux;
+    Board *boardAux = createBoard(initCol,initRow);
 
     char playerName;
     int i;
@@ -151,13 +156,16 @@ void printReport(char* fileName,int MaxCol,int maxRow, CoordList *moves) {
                 movesAux = cutMovesList(moves,nodeAux);
                 if (movesAux == NULL)
                     printf("Erro ao cortar a lista de moves");
-                boardAux = resizeBoard(boardAux,movesAux);
                 moveToCoords(boardAux, nodeAux->x, nodeAux->y);
                 printBoardToFile(report, boardAux, nodeAux->x, nodeAux->y, playerName);
+                boardAux = resizeBoard(boardAux,movesAux);
+                free(movesAux);
             }
 
             nodeAux = nodeAux->next;
         }
+
+        free(boardAux);
         if (fclose(report) == 0)
             printf("report exportado com sucesso!");
         else printf("Erro ao Exportar o report!");
